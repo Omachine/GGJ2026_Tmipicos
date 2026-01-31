@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timer;
 
     [Header("Inventário")]
-    public List<GameObject> listInventory;
+    public List<PickableObject> listInventory;
 
     private void Awake()
     {
@@ -41,8 +41,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         seconds = 0;
-        timer.text = "30:00";
-        StartCoroutine(CountSeconds());
+        //timer.text = "30:00";
+        //StartCoroutine(CountSeconds());
     }
 
 
