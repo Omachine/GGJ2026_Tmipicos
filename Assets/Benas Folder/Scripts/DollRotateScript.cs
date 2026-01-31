@@ -9,6 +9,7 @@ public class DollRotateScript : MonoBehaviour
     private float rotation;
     public Image fadeImage;
     private float fadeDuration;
+    bool isRotating = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,22 +29,30 @@ public class DollRotateScript : MonoBehaviour
 
     public void RotateDoll()
     {
-        totalDegrees = 0;
-        StartCoroutine(Fade(0,1));
-        StartCoroutine(Rotate(1));
-        //StartCoroutine(Fade(1, 0));
+        if (!isRotating)
+        {
+            totalDegrees = 0;
+            StartCoroutine(Fade(0, 1));
+            StartCoroutine(Rotate(1));
+            //StartCoroutine(Fade(1, 0)); 
+        }
+
     }
 
     public void RotateDollLeft()
     {
-        totalDegrees = 0;
-        StartCoroutine(Fade(0, 1));
-        StartCoroutine(Rotate(-1));
-        //StartCoroutine(Fade(1, 0));
+        if (!isRotating)
+        {
+            totalDegrees = 0;
+            StartCoroutine(Fade(0, 1));
+            StartCoroutine(Rotate(-1));
+            //StartCoroutine(Fade(1, 0));
+        }
     }
 
     IEnumerator Rotate(int multiplier)
     {
+        isRotating = true;
         while (totalDegrees < rotation)
         {
             transform.Rotate(0, degrees * multiplier, 0);
@@ -54,6 +63,7 @@ public class DollRotateScript : MonoBehaviour
         }
         this.gameObject.transform.Rotate(0, 80 * multiplier, 0);
         StartCoroutine(Fade(1, 0));
+        isRotating=false;
     }
 
 
