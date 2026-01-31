@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 public class PlayerController : MonoBehaviour
 {
     public Rigidbody rb;
+    public Animator animator;
     
     [Header("Movement")]
     [SerializeField] float speed;
@@ -20,14 +21,17 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         // State Machine Initialization
         stateMachine = new StateMachine();
         
-        var movingState = new GroundedPlayerState(this);
+        var idleState = new GroundedPlayerState(this, animator);
+        var spectralState = new GroundedPlayerState1(this, animator);
         
-        //stateMachine.AddTransition(movingState, jumpState, new FuncPredicate(() => jumpedLastFrame));
+        stateMachine.AddTransition(idleState, spectralState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space)));
+        stateMachine.AddTransition(spectralState, idleState, new FuncPredicate(() => Input.GetKeyUp(KeyCode.Space)));
         
-        stateMachine.SetState(movingState);
+        stateMachine.SetState(idleState);
         
         rb.freezeRotation = true;
     }

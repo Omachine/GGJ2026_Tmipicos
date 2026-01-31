@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    public Transform camera;
+    public Transform fpCamera;
     public float interactionRange = 3f;
     Ray ray;
     public bool Enabled = true;
@@ -12,7 +12,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (!Enabled) return;
         
-        ray = new Ray(camera.position, camera.forward);
+        ray = new Ray(fpCamera.position, fpCamera.forward);
         Debug.DrawRay(ray.origin, ray.direction * interactionRange, Color.red);
         if (Input.GetKeyDown(KeyCode.F))
         {
