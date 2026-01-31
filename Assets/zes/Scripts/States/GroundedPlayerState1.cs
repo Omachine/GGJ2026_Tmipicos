@@ -8,7 +8,6 @@ namespace FiniteStateMachine
         
         public override void OnEnter()
         {
-            Debug.Log("Entering Moving State");
             animator.CrossFade(SpectralHash, crossFadeDuration);
         }
 

@@ -10,7 +10,6 @@ namespace FiniteStateMachine
         {
             player.DollCamera.SetActive(true);
             player.UI.SetActive(true);
-            Debug.Log("Entering Moving State");
             animator.CrossFade(GroundedHash, crossFadeDuration);
         }
 
