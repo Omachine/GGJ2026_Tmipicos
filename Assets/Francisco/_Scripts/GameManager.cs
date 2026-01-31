@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using Unity.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     private int seconds;
     private int minutes = 30;
     [SerializeField] private TextMeshProUGUI timer;
+
+    [Header("Inventário")]
+    public List<GameObject> listInventory;
 
     private void Awake()
     {

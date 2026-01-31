@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MoveObject : MonoBehaviour
 {
-    private Vector3 mOffset;
+    /*private Vector3 mOffset;
     private float mZCoord;
     //private bool isTrigger = false;
     Collider col;
@@ -97,47 +97,105 @@ public class MoveObject : MonoBehaviour
         isTrigger = false;
     }*/
 
-    /*private void OnCollisionEnter(Collision collision)
-    {
-        isTrigger = true;
-        Debug.Log(isTrigger);
-    }
+    /*private Vector3 mOffset;
+    private float mZCoord;
+    private Rigidbody rb;
+    [SerializeField] float moveSpeed;
 
-    private void OnCollisionExit(Collision collision)
-    {
-        isTrigger = false;
-        Debug.Log(isTrigger);
-    }*/
 
-    /*private Rigidbody rb;
-    private Vector3 mOffset;
-
-    void Awake()
+    private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        moveSpeed = 1f;
     }
 
     void OnMouseDown()
     {
-        mOffset = transform.position - GetMouseAsWorldPoint();
+        mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
+
+        // Store offset = gameobject world pos - mouse world pos
+        mOffset = gameObject.transform.position - GetMouseAsWorldPoint();
+        rb.isKinematic = false;
+    }
+
+    private void OnMouseUp()
+    {
+        rb.isKinematic = true;
     }
 
     void OnMouseDrag()
     {
+        //transform.position = GetMouseAsWorldPoint() + mOffset;
+        rb.MovePosition(transform.position + mOffset);
+    }
+
+    private Vector3 GetMouseAsWorldPoint()
+    {
+        // Pixel coordinates of mouse (x,y)
+        Vector3 mousePoint = Input.mousePosition;
+
+        // z coordinate of game object on screen
+        mousePoint.z = mZCoord;
+
+        // Convert it to world points
+        return Camera.main.ScreenToWorldPoint(mousePoint);
+    }*/
+
+    Rigidbody rb;
+    Vector3 mOffset;
+    float mZCoord;
+    bool dragging;
+
+    [Header("Tuning")]
+    public float forceStrength = 1f;
+    public float maxSpeed = 1f;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.freezeRotation = true;
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+    }
+
+    void OnMouseDown()
+    {
+        dragging = true;
+
+        mZCoord = Camera.main.WorldToScreenPoint(transform.position).z;
+        mOffset = transform.position - GetMouseAsWorldPoint();
+        rb.isKinematic = false;
+    }
+
+    void OnMouseUp()
+    {
+        dragging = false;
+        rb.linearVelocity = Vector3.zero; // stop immediately when released
+        rb.isKinematic = true;
+    }
+
+    void FixedUpdate()
+    {
+        if (!dragging)
+            return;
+
         Vector3 target = GetMouseAsWorldPoint() + mOffset;
+        Vector3 direction = target - rb.position;
 
-        // Keep Z fixed if needed
-        Vector3 newPos = new Vector3(target.x, target.y, rb.position.z);
+        // Apply force toward mouse
+        rb.AddForce(direction * forceStrength, ForceMode.Acceleration);
 
-        // Move with physics, respecting collisions
-        rb.MovePosition(newPos);
+        // Clamp max speed (VERY important)
+        if (rb.linearVelocity.magnitude > maxSpeed)
+        {
+            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
+        }
     }
 
     Vector3 GetMouseAsWorldPoint()
     {
         Vector3 mouse = Input.mousePosition;
-        mouse.z = Camera.main.WorldToScreenPoint(transform.position).z;
+        mouse.z = mZCoord;
         return Camera.main.ScreenToWorldPoint(mouse);
-    }*/
-
+    }
 }
