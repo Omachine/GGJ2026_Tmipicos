@@ -14,7 +14,7 @@ public class PlayerInteraction : MonoBehaviour
         
         ray = new Ray(camera.position, camera.forward);
         Debug.DrawRay(ray.origin, ray.direction * interactionRange, Color.red);
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, interactionRange))

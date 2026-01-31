@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -6,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     public float accel = 5.0f;
     public Rigidbody rb;
     Vector2 movementInput;
-    public Transform camera;
+    public Transform fpCamera;
 
     void Update()
     {
@@ -18,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     
     void FixedUpdate()
     {
-        Vector3 movement = camera.parent.forward * movementInput.y + camera.parent.right * movementInput.x;
+        Vector3 movement = fpCamera.parent.forward * movementInput.y + fpCamera.parent.right * movementInput.x;
         
         Vector3 currentVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         Vector3 finalForce = (movement * maxSpeed - currentVelocity) * accel;
