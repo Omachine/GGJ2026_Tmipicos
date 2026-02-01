@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
-    public static bool isInDoll = false, hasMask = false, hasMask2 = false;
+    public static bool isInDoll = false, hasMask = true, hasMask2 = true;
     public static Transform staticEvilObjects;
     public Transform EvilObjects;
 
@@ -22,10 +22,12 @@ public class PlayerController : MonoBehaviour
 
     public GameObject DollCamera;
     public GameObject UI;
+    public GameObject UIFP;
     public GameObject Mask1, Mask2;
     
     Vector3 movementInput;
     Vector3 wishedDirection; // movement direction with speed and camera perspective applied
+    // For swap state reason
 
     private void Awake()
     {
@@ -39,10 +41,11 @@ public class PlayerController : MonoBehaviour
         var spectralState2 = new GroundedPlayerState2(this, animator);
         var dollState = new DollPlayerState(this, animator);
         
-        stateMachine.AddTransition(idleState, spectralState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space) && hasMask));
-        stateMachine.AddTransition(idleState, spectralState2, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space) && hasMask2));
-        stateMachine.AddTransition(spectralState, idleState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space)));
-        stateMachine.AddTransition(spectralState2, idleState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space)));
+        stateMachine.AddTransition(idleState, spectralState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Alpha1) && hasMask));
+        stateMachine.AddTransition(idleState, spectralState2, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Alpha2) && hasMask2));
+        
+        stateMachine.AddTransition(spectralState, idleState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Alpha1)));
+        stateMachine.AddTransition(spectralState2, idleState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Alpha2)));
         
         stateMachine.AddTransition(idleState, dollState, new FuncPredicate(() => isInDoll));
         stateMachine.AddTransition(dollState, idleState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Escape)));
