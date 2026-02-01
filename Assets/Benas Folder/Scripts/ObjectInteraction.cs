@@ -44,7 +44,7 @@ public class ObjectInteraction : MonoBehaviour
                     if (hit.transform.gameObject.name == i.GetObjToInteract().name &&
                         hit.transform.gameObject.CompareTag("Chest"))
                     {
-                        GameObject hinges = hit.transform.Find("Hinges").gameObject;
+                        GameObject hinges = hit.transform.Find("ChestLid").gameObject;
                         StartCoroutine(RotateClock(hinges.transform, 60));
                     }
                 }
