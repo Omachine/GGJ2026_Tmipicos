@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - PointerHour
+  - PointerMinute
+  - Chest
+  - Hinges
   layers:
   - Default
   - TransparentFX
