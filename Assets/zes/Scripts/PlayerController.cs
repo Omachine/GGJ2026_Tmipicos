@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     public GameObject DollCamera;
     public GameObject UI;
+    public GameObject Mask1, Mask2;
     
     Vector3 movementInput;
     Vector3 wishedDirection; // movement direction with speed and camera perspective applied
@@ -30,12 +31,16 @@ public class PlayerController : MonoBehaviour
         
         var idleState = new GroundedPlayerState(this, animator);
         var spectralState = new GroundedPlayerState1(this, animator);
+        var spectralState2 = new GroundedPlayerState2(this, animator);
         var dollState = new DollPlayerState(this, animator);
         
         stateMachine.AddTransition(idleState, spectralState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space)));
-        stateMachine.AddTransition(spectralState, idleState, new FuncPredicate(() => Input.GetKeyUp(KeyCode.Space)));
+        stateMachine.AddTransition(idleState, spectralState2, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space)));
+        stateMachine.AddTransition(spectralState, idleState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space)));
+        stateMachine.AddTransition(spectralState2, idleState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space)));
+        
         stateMachine.AddTransition(idleState, dollState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.H)));
-        stateMachine.AddTransition(dollState, idleState, new FuncPredicate(() => Input.GetKeyUp(KeyCode.H)));
+        stateMachine.AddTransition(dollState, idleState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.H)));
         
         stateMachine.SetState(idleState);
         
