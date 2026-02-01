@@ -15,4 +15,5 @@ MonoBehaviour:
   name: Chest Key
   canPick: 1
   canRotate: 0
-  objToInteract: {fileID: 0}
+  isClock: 0
+  objToInteract: {fileID: 6067798621997531289, guid: f55989fd4381c004a9a7c32b9655bd41, type: 3}
