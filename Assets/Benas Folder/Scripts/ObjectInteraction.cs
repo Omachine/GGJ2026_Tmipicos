@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectInteraction : MonoBehaviour
 {
@@ -8,7 +9,24 @@ public class ObjectInteraction : MonoBehaviour
     public float raycastDistance;
     bool isRotating = false;
     bool isLidOpen = false;
+    public Image fadeImage;
+    private float fadeDuration;
+    private float degrees;
+    private float totalDegrees;
+    private float rotation;
 
+    [SerializeField] private GameObject keyBook;
+
+
+    void Start()
+    {
+
+        degrees = 0.5f;
+        rotation = 45f;
+        totalDegrees = 0;
+        fadeDuration = 0.12f;
+        //RotateDoll();
+    }
     void CheckCollisions()
     {
         Ray ray = new Ray(transform.position, transform.forward);
@@ -41,6 +59,13 @@ public class ObjectInteraction : MonoBehaviour
 
                 if (hit.transform.tag == "DollMask") PlayerController.isInDoll = true;
 
+                if (hit.transform.tag == "KeyBook")
+                {
+                    StartCoroutine(RotateBook(-1, hit));
+                    //StartCoroutine(Fade(1, 0));
+                    
+                }
+
                 foreach (PickableObject i in GameManager.Instance.listInventory)
                 {
                     if (i == null) continue;
@@ -54,21 +79,8 @@ public class ObjectInteraction : MonoBehaviour
                         isLidOpen = true;
                     }
                 }
-
-                //if (hit.transform.gameObject.GetComponent<Item>().item.GetObjToInteract() == this.gameObject)
-                //{
-
-                //}
-
-
-
             }
         }
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame
@@ -137,11 +149,39 @@ public class ObjectInteraction : MonoBehaviour
         return;
     }
 
-    //IEnumerable OpenChest()
-    //{
-        
+    IEnumerator RotateBook(int multiplier, RaycastHit hit)
+    {
+        while (totalDegrees < rotation)
+        {
+            hit.transform.Rotate(degrees * multiplier, 0, 0);
+            totalDegrees += degrees;
 
-    //}
+            yield return new WaitForSeconds(0.01f);
+
+        }
+        //this.gameObject.transform.Rotate(80 * multiplier, 0, 0);
+        //StartCoroutine(Fade(0, 1));
+        keyBook.SetActive(true);
+    }
+
+    private IEnumerator Fade(float startAlpha, float endAlpha)
+    {
+        Color color = fadeImage.color;
+        float timer = 0f;
+
+        while (timer <= fadeDuration)
+        {
+            float t = timer / fadeDuration;
+            color.a = Mathf.Lerp(startAlpha, endAlpha, t);
+            fadeImage.color = color;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        color.a = endAlpha;
+        fadeImage.color = color;
+    }
 
 
 

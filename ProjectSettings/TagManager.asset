@@ -9,6 +9,7 @@ TagManager:
   - Chest
   - Hinges
   - DollMask
+  - KeyBook
   layers:
   - Default
   - TransparentFX
