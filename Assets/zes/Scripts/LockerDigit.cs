@@ -15,7 +15,7 @@ public class LockerDigit : MonoBehaviour, IInteractable
     
     private void Awake()
     {
-        baseRotation = transform.eulerAngles.y;
+        baseRotation = transform.eulerAngles.x;
     }
 
     public void Interact()
@@ -29,17 +29,17 @@ public class LockerDigit : MonoBehaviour, IInteractable
 
     IEnumerator Rotate()
     {
-        float currentRotation = transform.eulerAngles.y;
+        float currentRotation = transform.eulerAngles.x;
         float targetAngle = baseRotation + Value * 36f;
 
         while (Mathf.Abs(Mathf.DeltaAngle(currentRotation, targetAngle)) > 0.1f)
         {
             currentRotation = Mathf.MoveTowardsAngle(currentRotation, targetAngle, rotationSpeed * Time.deltaTime);
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, currentRotation, transform.eulerAngles.z);
+            transform.eulerAngles = new Vector3(currentRotation, transform.eulerAngles.y, transform.eulerAngles.z);
             yield return null;
         }
 
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, targetAngle, transform.eulerAngles.z);
+        transform.eulerAngles = new Vector3(targetAngle, transform.eulerAngles.y, transform.eulerAngles.z);
         rotateCoroutine = null;
     }
 }
