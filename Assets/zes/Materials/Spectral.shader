@@ -2,6 +2,7 @@ Shader "Custom/NewUnlitUniversalRenderPipelineShader"
 {
     Properties
     {
+        [IntRange] _StencilID("Stencil ID", Range(0, 10)) = 1
         [MainColor] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
         [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
     }
@@ -12,7 +13,7 @@ Shader "Custom/NewUnlitUniversalRenderPipelineShader"
         
         Stencil
         {
-            ref 1
+            ref [_StencilID]
             comp equal
         }
 

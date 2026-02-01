@@ -2,6 +2,7 @@ Shader "Custom/Mask"
 {
     Properties
     {
+        [IntRange] _StencilID("Stencil ID", Range(0, 10)) = 1
         [MainColor] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
         [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
     }
@@ -18,7 +19,7 @@ Shader "Custom/Mask"
             
             Stencil
             {
-                ref 1
+                ref [_StencilID]
                 comp Always
                 pass replace
                 Fail Keep
