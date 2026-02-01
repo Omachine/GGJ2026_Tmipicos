@@ -5,6 +5,7 @@ using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
+    public static bool isInDoll = false;
     public Rigidbody rb;
     public Animator animator;
     
@@ -39,8 +40,8 @@ public class PlayerController : MonoBehaviour
         stateMachine.AddTransition(spectralState, idleState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space)));
         stateMachine.AddTransition(spectralState2, idleState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space)));
         
-        stateMachine.AddTransition(idleState, dollState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.H)));
-        stateMachine.AddTransition(dollState, idleState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.H)));
+        stateMachine.AddTransition(idleState, dollState, new FuncPredicate(() => isInDoll));
+        stateMachine.AddTransition(dollState, idleState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Escape)));
         
         stateMachine.SetState(idleState);
         

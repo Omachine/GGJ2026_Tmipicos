@@ -16,4 +16,4 @@ MonoBehaviour:
   canPick: 1
   canRotate: 0
   isClock: 0
-  objToInteract: {fileID: 6067798621997531289, guid: f55989fd4381c004a9a7c32b9655bd41, type: 3}
+  objToInteract: {fileID: 4930936350253088183, guid: 7753db41936bbb440a20e96ad5f808ab, type: 3}

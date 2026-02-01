@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour
 
     [NonSerialized] public int currentHour = 0;
     [NonSerialized] public int currentMinute = 0;
-    [NonSerialized] public int targetHour = 6;
-    [NonSerialized] public int targetMinute = 0;
+    [NonSerialized] public int targetHour = 7;
+    [NonSerialized] public int targetMinute = 4;
 
 
     private int seconds;

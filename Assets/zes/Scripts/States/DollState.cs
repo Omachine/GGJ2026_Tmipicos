@@ -11,12 +11,14 @@ namespace FiniteStateMachine
             player.DollCamera.SetActive(true);
             player.UI.SetActive(true);
             animator.CrossFade(GroundedHash, crossFadeDuration);
+            
         }
 
         public override void OnExit()
         {
             player.DollCamera.SetActive(false);
             player.UI.SetActive(false);
+            PlayerController.isInDoll = false;
         }
     }
 }

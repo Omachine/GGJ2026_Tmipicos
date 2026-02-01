@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObjectInteraction : MonoBehaviour
@@ -6,6 +7,7 @@ public class ObjectInteraction : MonoBehaviour
     public LayerMask collisionMask;
     public float raycastDistance;
     bool isRotating = false;
+    bool isLidOpen = false;
 
     void CheckCollisions()
     {
@@ -32,20 +34,24 @@ public class ObjectInteraction : MonoBehaviour
                     }
                     if (hit.transform.gameObject.GetComponent<Item>().item.IsClock())
                     {
-                        if (!isRotating) StartCoroutine(RotateClock(hit.transform, -30f));
+                        if (!isRotating) StartCoroutine(RotateClock(hit.transform, -30f, 0f));
 
                     }
                 }
+
+                if (hit.transform.tag == "DollMask") PlayerController.isInDoll = true;
+
                 foreach (PickableObject i in GameManager.Instance.listInventory)
                 {
                     if (i == null) continue;
                     if (i.GetObjToInteract() == null) continue;
 
                     if (hit.transform.gameObject.name == i.GetObjToInteract().name &&
-                        hit.transform.gameObject.CompareTag("Chest"))
+                        hit.transform.gameObject.CompareTag("Chest") && !isLidOpen)
                     {
                         GameObject hinges = hit.transform.Find("ChestLid").gameObject;
-                        StartCoroutine(RotateClock(hinges.transform, 60));
+                        StartCoroutine(RotateClock(hinges.transform, 0, 60f));
+                        isLidOpen = true;
                     }
                 }
 
@@ -90,7 +96,7 @@ public class ObjectInteraction : MonoBehaviour
         target.rotation = endRotation; // garante que termina certinho
     }
 
-    IEnumerator RotateClock(Transform target, float degrees) //-30
+    IEnumerator RotateClock(Transform target, float degreesZ, float degreesX) //-30
     {
         if (target.CompareTag("PointerHour")) GameManager.Instance.IncrementHour();
         if (target.CompareTag("PointerMinute")) GameManager.Instance.IncrementMinute();
@@ -99,7 +105,7 @@ public class ObjectInteraction : MonoBehaviour
 
         isRotating = true;
         Quaternion startRotation = target.rotation;
-        Quaternion endRotation = startRotation * Quaternion.Euler(0f, 0f, degrees);
+        Quaternion endRotation = startRotation * Quaternion.Euler(degreesX, 0f, degreesZ);
 
         float t = 0f;
         float duration = 0.2f; // tempo da rotação (ajusta aqui)
