@@ -19,7 +19,7 @@ public class DollRotateScript : MonoBehaviour
         rotation = 10;
         totalDegrees = 0;
         fadeDuration = 0.12f;
-        RotateDoll();
+        //RotateDoll();
     }
 
     // Update is called once per frame
@@ -56,13 +56,13 @@ public class DollRotateScript : MonoBehaviour
         isRotating = true;
         while (totalDegrees < rotation)
         {
-            transform.Rotate(0, degrees * multiplier, 0);
+            transform.Rotate(0, 0, degrees * multiplier);
             totalDegrees += degrees;
 
             yield return new WaitForSeconds(0.01f);
             
         }
-        this.gameObject.transform.Rotate(0, 80 * multiplier, 0);
+        this.gameObject.transform.Rotate(0, 0, 80 * multiplier);
         StartCoroutine(Fade(1, 0));
         isRotating=false;
     }
