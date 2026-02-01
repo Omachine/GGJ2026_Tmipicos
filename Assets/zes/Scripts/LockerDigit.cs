@@ -7,11 +7,9 @@ public class LockerDigit : MonoBehaviour, IInteractable
     public event Action OnDigitChanged;
     
     private float baseRotation;
-    private int Value;
+    public int Value;
     [SerializeField] int CorrectValue;
     private float rotationSpeed = 114f;
-
-    private Coroutine rotateCoroutine;
     
     private void Awake()
     {
@@ -21,25 +19,12 @@ public class LockerDigit : MonoBehaviour, IInteractable
     public void Interact()
     {
         Value = (Value + 1) % 10;
+        Debug.Log(Value * 36f);
         OnDigitChanged?.Invoke();
-        StartCoroutine(Rotate());
+        
+        float targetAngle = baseRotation + Value * 36f;
+        transform.rotation = Quaternion.Euler(targetAngle, 0, 0);
     }
 
     public bool IsValueCorrect() => CorrectValue == Value;
-
-    IEnumerator Rotate()
-    {
-        float currentRotation = transform.eulerAngles.x;
-        float targetAngle = baseRotation + Value * 36f;
-
-        while (Mathf.Abs(Mathf.DeltaAngle(currentRotation, targetAngle)) > 0.1f)
-        {
-            currentRotation = Mathf.MoveTowardsAngle(currentRotation, targetAngle, rotationSpeed * Time.deltaTime);
-            transform.eulerAngles = new Vector3(currentRotation, transform.eulerAngles.y, transform.eulerAngles.z);
-            yield return null;
-        }
-
-        transform.eulerAngles = new Vector3(targetAngle, transform.eulerAngles.y, transform.eulerAngles.z);
-        rotateCoroutine = null;
-    }
 }

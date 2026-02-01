@@ -2,14 +2,14 @@
 
 namespace FiniteStateMachine
 {
-    public class GroundedPlayerState1 : PlayerState
+    public class GroundedPlayerState2 : PlayerState
     {
-        public GroundedPlayerState1(PlayerController player, Animator animator) : base(player, animator) { }
+        public GroundedPlayerState2(PlayerController player, Animator animator) : base(player, animator) { }
         
         public override void OnEnter()
         {
-            player.Mask2.SetActive(false);
-            player.Mask1.SetActive(true);
+            player.Mask2.SetActive(true);
+            player.Mask1.SetActive(false);
             animator.CrossFade(SpectralHash, crossFadeDuration);
         }
 
