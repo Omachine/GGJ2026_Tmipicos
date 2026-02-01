@@ -10,5 +10,6 @@ public class PickableObject : ScriptableObject
     public bool GetPick() {  return canPick; }
     public bool CanRotate() {  return canRotate; }
     public bool IsClock() { return isClock; }
+    public string GetName() { return name; }
     public GameObject GetObjToInteract() {  return objToInteract; }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ObjectInteraction : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class ObjectInteraction : MonoBehaviour
     private float rotation;
 
     [SerializeField] private GameObject keyBook;
+    [SerializeField] private TMP_Text tooltip;
+    [SerializeField] private Canvas canvas;
+
 
 
     void Start()
@@ -34,7 +38,7 @@ public class ObjectInteraction : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, raycastDistance, collisionMask, QueryTriggerInteraction.Collide))
         {
-            
+            tooltip.gameObject.SetActive(true);
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (hit.transform.gameObject.GetComponent<Item>() != null)
@@ -46,8 +50,23 @@ public class ObjectInteraction : MonoBehaviour
                     }
                     if (hit.transform.gameObject.GetComponent<Item>().item.GetPick())
                     {
+                        if (hit.transform.gameObject.CompareTag("Mask1"))
+                        {
+                            canvas.transform.Find("Inventory/Mask1/Image").gameObject.SetActive(true);
+                        }
+                        if (hit.transform.gameObject.CompareTag("Mask2"))
+                        {
+                            canvas.transform.Find("Inventory/Mask2/Image").gameObject.SetActive(true);
+                        }
+                        if (hit.transform.gameObject.CompareTag("KeyBook"))
+                        {
+                            canvas.transform.Find("Key/Image").gameObject.SetActive(true);
+                        }
+
                         GameManager.Instance.listInventory.Add(hit.transform.gameObject.GetComponent<Item>().item);
                         Destroy(hit.transform.gameObject);
+
+                        //falta o resto
 
                     }
                     if (hit.transform.gameObject.GetComponent<Item>().item.IsClock())
@@ -80,6 +99,10 @@ public class ObjectInteraction : MonoBehaviour
                     }
                 }
             }
+        }
+        else
+        {
+            tooltip.gameObject.SetActive(false);
         }
     }
 

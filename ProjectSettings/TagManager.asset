@@ -10,6 +10,8 @@ TagManager:
   - Hinges
   - DollMask
   - KeyBook
+  - Mask1
+  - Mask2
   layers:
   - Default
   - TransparentFX

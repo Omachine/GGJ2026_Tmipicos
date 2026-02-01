@@ -115,7 +115,6 @@ public class SettingsMenuManager : MonoBehaviour
 
     public void OptionToggle()
     {
-        Debug.Log("ye");
         if (isInOptions)
         {
             ReturnFromOptions();
