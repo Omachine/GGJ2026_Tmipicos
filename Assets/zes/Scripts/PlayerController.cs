@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
-    public static bool isInDoll = false;
+    public static bool isInDoll = false, hasMask = false, hasMask2 = false;
     public static Transform staticEvilObjects;
     public Transform EvilObjects;
 
@@ -39,8 +39,8 @@ public class PlayerController : MonoBehaviour
         var spectralState2 = new GroundedPlayerState2(this, animator);
         var dollState = new DollPlayerState(this, animator);
         
-        stateMachine.AddTransition(idleState, spectralState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space)));
-        stateMachine.AddTransition(idleState, spectralState2, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space)));
+        stateMachine.AddTransition(idleState, spectralState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space) && hasMask));
+        stateMachine.AddTransition(idleState, spectralState2, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space) && hasMask2));
         stateMachine.AddTransition(spectralState, idleState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space)));
         stateMachine.AddTransition(spectralState2, idleState, new FuncPredicate(() => Input.GetKeyDown(KeyCode.Space)));
         

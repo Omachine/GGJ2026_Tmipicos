@@ -53,10 +53,12 @@ public class ObjectInteraction : MonoBehaviour
                         if (hit.transform.gameObject.CompareTag("Mask1"))
                         {
                             canvas.transform.Find("Inventory/Mask1/Image").gameObject.SetActive(true);
+                            PlayerController.hasMask = true;
                         }
                         if (hit.transform.gameObject.CompareTag("Mask2"))
                         {
                             canvas.transform.Find("Inventory/Mask2/Image").gameObject.SetActive(true);
+                            PlayerController.hasMask2 = true;
                         }
                         if (hit.transform.gameObject.CompareTag("KeyBook"))
                         {
