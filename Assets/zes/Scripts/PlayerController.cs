@@ -6,6 +6,9 @@ using UnityEngine.Serialization;
 public class PlayerController : MonoBehaviour
 {
     public static bool isInDoll = false;
+    public static Transform staticEvilObjects;
+    public Transform EvilObjects;
+
     public Rigidbody rb;
     public Animator animator;
     
@@ -26,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        staticEvilObjects = EvilObjects;
         animator = GetComponent<Animator>();
         // State Machine Initialization
         stateMachine = new StateMachine();
