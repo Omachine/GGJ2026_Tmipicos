@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -17,6 +18,12 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Image fadeImage;
     [SerializeField] private float fadeDuration = 1f;
+
+    [NonSerialized] public int currentHour = 0;
+    [NonSerialized] public int currentMinute = 0;
+    [NonSerialized] public int targetHour = 6;
+    [NonSerialized] public int targetMinute = 0;
+
 
     private int seconds;
     private int minutes = 30;
@@ -40,6 +47,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        State = GameState.MainMenuScreen;
         seconds = 0;
         //timer.text = "30:00";
         //StartCoroutine(CountSeconds());
@@ -57,6 +65,7 @@ public class GameManager : MonoBehaviour
             case GameState.InGame:
                 break;
             case GameState.EndGame:
+
                 FadeIn();
                 break;
             default:
@@ -132,6 +141,43 @@ public class GameManager : MonoBehaviour
             MenuManager.Instance.UpdateMenuState(MenuState.InitialScreen);
         }
     }*/
+
+    //---//BUTTONS//---//
+
+    public void StartGame()
+    {
+        UpdateGameState(GameState.InGame);
+        SceneManager.LoadScene("BenasScene");
+    }
+    
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+    
+
+    //---//SETS//---//
+
+    public void IncrementHour()
+    {
+        currentHour++;
+        if (currentHour >= 12)
+        {
+            currentHour = 0;
+        }
+        //Debug.Log(currentHour);
+    }
+    public void IncrementMinute()
+    {
+        currentMinute++;
+        if (currentMinute >= 12)
+        {
+            currentMinute = 0;
+        }
+        //Debug.Log(currentMinute);
+    }
+    
+        
 }
 
 public enum GameState
@@ -140,3 +186,4 @@ public enum GameState
     InGame,
     EndGame
 }
+

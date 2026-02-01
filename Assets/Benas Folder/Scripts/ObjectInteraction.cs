@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ObjectInteraction : MonoBehaviour
 {
-
     public LayerMask collisionMask;
     public float raycastDistance;
     bool isRotating = false;
@@ -16,20 +15,46 @@ public class ObjectInteraction : MonoBehaviour
         if (Physics.Raycast(ray, out hit, raycastDistance, collisionMask, QueryTriggerInteraction.Collide))
         {
             
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                Debug.Log("RCheck");
-                if (hit.transform.gameObject.GetComponent<Item>().item.CanRotate())
-                {
-                    if(!isRotating) StartCoroutine(Rotate90Y(hit.transform));
-                    Debug.Log("rotate");
+                if (hit.transform.gameObject.GetComponent<Item>() != null)
+                {         
+                    if (hit.transform.gameObject.GetComponent<Item>().item.CanRotate())
+                    {
+                        if(!isRotating) StartCoroutine(Rotate90Y(hit.transform));
+
+                    }
+                    if (hit.transform.gameObject.GetComponent<Item>().item.GetPick())
+                    {
+                        GameManager.Instance.listInventory.Add(hit.transform.gameObject.GetComponent<Item>().item);
+                        Destroy(hit.transform.gameObject);
+
+                    }
+                    if (hit.transform.gameObject.GetComponent<Item>().item.IsClock())
+                    {
+                        if (!isRotating) StartCoroutine(RotateClock(hit.transform, -30f));
+
+                    }
                 }
-                if (hit.transform.gameObject.GetComponent<Item>().item.GetPick())
+                foreach (PickableObject i in GameManager.Instance.listInventory)
                 {
-                    GameManager.Instance.listInventory.Add(hit.transform.gameObject.GetComponent<Item>().item);
-                    Destroy(hit.transform.gameObject);
-                    Debug.Log("picked");
+                    if (i == null) continue;
+                    if (i.GetObjToInteract() == null) continue;
+
+                    if (hit.transform.gameObject.name == i.GetObjToInteract().name &&
+                        hit.transform.gameObject.CompareTag("Chest"))
+                    {
+                        GameObject hinges = hit.transform.Find("Hinges").gameObject;
+                        StartCoroutine(RotateClock(hinges.transform, 60));
+                    }
                 }
+
+                //if (hit.transform.gameObject.GetComponent<Item>().item.GetObjToInteract() == this.gameObject)
+                //{
+
+                //}
+
+
 
             }
         }
@@ -64,6 +89,53 @@ public class ObjectInteraction : MonoBehaviour
         isRotating = false;
         target.rotation = endRotation; // garante que termina certinho
     }
+
+    IEnumerator RotateClock(Transform target, float degrees) //-30
+    {
+        if (target.CompareTag("PointerHour")) GameManager.Instance.IncrementHour();
+        if (target.CompareTag("PointerMinute")) GameManager.Instance.IncrementMinute();
+
+        CheckTime(target);
+
+        isRotating = true;
+        Quaternion startRotation = target.rotation;
+        Quaternion endRotation = startRotation * Quaternion.Euler(0f, 0f, degrees);
+
+        float t = 0f;
+        float duration = 0.2f; // tempo da rotação (ajusta aqui)
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duration;
+            target.rotation = Quaternion.Slerp(startRotation, endRotation, t);
+            yield return null;
+        }
+        isRotating = false;
+        target.rotation = endRotation; // garante que termina certinho
+    }
+
+    void CheckTime(Transform target)
+    {
+        //Debug.Log(target.parent);
+        //Debug.Log("currentMinute "+GameManager.Instance.currentMinute);
+        //Debug.Log("targetMinute " +GameManager.Instance.targetMinute);
+        //Debug.Log("currentHour " + GameManager.Instance.currentHour);
+        //Debug.Log("targetHour "+GameManager.Instance.targetHour);
+
+        if (GameManager.Instance.currentMinute == GameManager.Instance.targetMinute &&
+            GameManager.Instance.currentHour == GameManager.Instance.targetHour)
+        {
+            
+            target.parent.GetComponent<Animator>().SetTrigger("open");
+        }
+        return;
+    }
+
+    //IEnumerable OpenChest()
+    //{
+        
+
+    //}
 
 
 

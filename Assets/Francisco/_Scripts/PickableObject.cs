@@ -4,10 +4,11 @@ using UnityEngine;
 public class PickableObject : ScriptableObject
 {
     [SerializeField] string name;
-    [SerializeField] bool canPick, canRotate;
+    [SerializeField] bool canPick, canRotate, isClock;
     [SerializeField] GameObject objToInteract;
 
     public bool GetPick() {  return canPick; }
     public bool CanRotate() {  return canRotate; }
+    public bool IsClock() { return isClock; }
     public GameObject GetObjToInteract() {  return objToInteract; }
 }

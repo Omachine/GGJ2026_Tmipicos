@@ -14,6 +14,7 @@ public class DollRotateScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         degrees = 0.5f;
         rotation = 10;
         totalDegrees = 0;
