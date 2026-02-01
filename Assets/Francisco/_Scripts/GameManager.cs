@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnGameStateChanged;
 
-
     [SerializeField] private Image fadeImage;
     [SerializeField] private float fadeDuration = 1f;
 
@@ -23,7 +22,6 @@ public class GameManager : MonoBehaviour
     [NonSerialized] public int currentMinute = 0;
     [NonSerialized] public int targetHour = 7;
     [NonSerialized] public int targetMinute = 4;
-
 
     private int seconds;
     private int minutes = 30;
@@ -52,6 +50,8 @@ public class GameManager : MonoBehaviour
         //timer.text = "30:00";
         //StartCoroutine(CountSeconds());
     }
+
+
 
 
     public void UpdateGameState(GameState newState)
@@ -176,8 +176,7 @@ public class GameManager : MonoBehaviour
         }
         //Debug.Log(currentMinute);
     }
-    
-        
+
 }
 
 public enum GameState

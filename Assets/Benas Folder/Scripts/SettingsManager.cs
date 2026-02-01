@@ -24,43 +24,14 @@ public class SettingsMenuManager : MonoBehaviour
     public AudioClip clip;          // clip que quer tocar
     private bool isPlaying = false; // flag para toggle
 
-    [Header("SFX Preview")]
-    [SerializeField] private AudioSource sfxPreviewSource;
-
     public GameObject canvas;
     public GameObject optionCanvas;
 
-    void Awake()
-    {
-        // ===== AUDIO =====
-        // Aplica os valores do mixer antes de qualquer som tocar para evitar solavanco
-
-
-        // ===== QUALITY =====
-        qualityDropdown.ClearOptions();
-        qualityDropdown.AddOptions(new List<string>(QualitySettings.names));
-
-        int currentQuality = PlayerPrefs.GetInt("Quality", QualitySettings.GetQualityLevel());
-        QualitySettings.SetQualityLevel(currentQuality, true);
-
-        qualityDropdown.SetValueWithoutNotify(currentQuality);
-        qualityDropdown.RefreshShownValue();
-
-        qualityDropdown.onValueChanged.RemoveAllListeners();
-        qualityDropdown.onValueChanged.AddListener(OnQualityChanged);
-    }
+    private bool isInOptions = false;
 
     private void Start()
     {
         LoadAudioSettings();
-    }
-
-    // ---------- QUALITY ----------
-    public void OnQualityChanged(int index)
-    {
-        QualitySettings.SetQualityLevel(index, true);
-        PlayerPrefs.SetInt("Quality", index);
-        PlayerPrefs.Save();
     }
 
     // ---------- AUDIO ----------
@@ -76,7 +47,6 @@ public class SettingsMenuManager : MonoBehaviour
 
     public void ChangeSfxVolume()
     {
-        StartSfxPreview();
         SetVolume(SFX_KEY, "SfxVol", sfxVol.value);
     }
 
@@ -92,9 +62,9 @@ public class SettingsMenuManager : MonoBehaviour
 
     void LoadAudioSettings()
     {
-        float master = PlayerPrefs.GetFloat(MASTER_KEY, 1f);
-        float music = PlayerPrefs.GetFloat(MUSIC_KEY, 1f);
-        float sfx = PlayerPrefs.GetFloat(SFX_KEY, 1f);
+        float master = Mathf.Clamp(PlayerPrefs.GetFloat(MASTER_KEY, 1f), 0.0001f, 1f);
+        float music = Mathf.Clamp(PlayerPrefs.GetFloat(MUSIC_KEY, 1f), 0.0001f, 1f);
+        float sfx = Mathf.Clamp(PlayerPrefs.GetFloat(SFX_KEY, 1f), 0.0001f, 1f);
 
         masterVol.SetValueWithoutNotify(master);
         musicVol.SetValueWithoutNotify(music);
@@ -104,6 +74,7 @@ public class SettingsMenuManager : MonoBehaviour
         mainAudioMixer.SetFloat("MusicVol", Mathf.Log10(music) * 20f);
         mainAudioMixer.SetFloat("SfxVol", Mathf.Log10(sfx) * 20f);
     }
+
 
 
     // ---------- TOGGLE AUDIO ----------
@@ -122,23 +93,39 @@ public class SettingsMenuManager : MonoBehaviour
         }
     }
 
+    public void Options()
+    {
+        canvas.gameObject.SetActive(false);
+        optionCanvas.gameObject.SetActive(true);
+    }
+
     public void ReturnFromOptions()
     {
-        canvas.SetActive(true);
-        optionCanvas.SetActive(false);
-
+        canvas.gameObject.SetActive(true);
+        optionCanvas.gameObject.SetActive(false);
     }
 
-    public void StartSfxPreview()
+    private void Update()
     {
-        if (!sfxPreviewSource.isPlaying)
-            sfxPreviewSource.Play();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OptionToggle();
+        }
     }
 
-    public void StopSfxPreview()
+    public void OptionToggle()
     {
-        if (sfxPreviewSource.isPlaying)
-            sfxPreviewSource.Stop();
+        Debug.Log("ye");
+        if (isInOptions)
+        {
+            ReturnFromOptions();
+            isInOptions = false;
+        }
+        else
+        {
+            Options();
+            isInOptions = true;
+        }
     }
 }
 
