@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         UpdateGameState(GameState.InGame);
-        SceneManager.LoadScene("BenasScene");
+        SceneManager.LoadScene("FinalScene");
     }
     
     public void QuitGame()
