@@ -12,6 +12,7 @@ namespace FiniteStateMachine
         {
             player.DollCamera.SetActive(true);
             player.UI.SetActive(true);
+            player.UIFP.SetActive(false);
             animator.CrossFade(GroundedHash, crossFadeDuration);
             ActivateEvilObjects(true);
       
@@ -21,6 +22,7 @@ namespace FiniteStateMachine
         {
             player.DollCamera.SetActive(false);
             player.UI.SetActive(false);
+            player.UIFP.SetActive(true);
             PlayerController.isInDoll = false;
             ActivateEvilObjects(false);
         }
