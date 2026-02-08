@@ -6,9 +6,12 @@ public class LockerBehaviour : MonoBehaviour
 {
     List<LockerDigit> digits = new List<LockerDigit>();
     public event Action OnUnlock;
+    private Rigidbody rb;
     
     private void Awake()
     {
+        rb = GetComponent<Rigidbody>();
+
         foreach (Transform child in transform)
         {
             var digit = child.GetComponent<LockerDigit>();
@@ -36,6 +39,7 @@ public class LockerBehaviour : MonoBehaviour
             if (!digit.IsValueCorrect()) return false;
         }
 
+        rb.useGravity = true;
         return true;
     }
 }

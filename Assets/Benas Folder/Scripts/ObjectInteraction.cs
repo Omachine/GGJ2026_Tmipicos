@@ -20,6 +20,8 @@ public class ObjectInteraction : MonoBehaviour
     [SerializeField] private TMP_Text tooltip;
     [SerializeField] private Canvas canvas;
 
+    [SerializeField] private Collider mask_2;
+
 
 
     void Start()
@@ -170,6 +172,7 @@ public class ObjectInteraction : MonoBehaviour
         {
             
             target.parent.GetComponent<Animator>().SetTrigger("open");
+            mask_2.enabled = true;
         }
         return;
     }

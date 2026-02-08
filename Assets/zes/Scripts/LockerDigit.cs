@@ -13,17 +13,20 @@ public class LockerDigit : MonoBehaviour, IInteractable
     
     private void Awake()
     {
-        baseRotation = transform.eulerAngles.x;
+        baseRotation = transform.localEulerAngles.x;
     }
 
     public void Interact()
     {
         Value = (Value + 1) % 10;
+        Debug.Log(Value);
         Debug.Log(Value * 36f);
         OnDigitChanged?.Invoke();
         
         float targetAngle = baseRotation + Value * 36f;
-        transform.rotation = Quaternion.Euler(targetAngle, 0, 0);
+        Debug.Log(targetAngle);
+        transform.localRotation = Quaternion.Euler(targetAngle, 0, 0);
+        Debug.Log(transform.rotation);
     }
 
     public bool IsValueCorrect() => CorrectValue == Value;
