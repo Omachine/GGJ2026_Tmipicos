@@ -6,7 +6,7 @@ using TMPro;
 
 public class ObjectInteraction : MonoBehaviour
 {
-    public LayerMask collisionMask;
+    public LayerMask collisionMask, espectralCollisionMask;
     public float raycastDistance;
     bool isRotating = false;
     bool isLidOpen = false;
@@ -21,6 +21,7 @@ public class ObjectInteraction : MonoBehaviour
     [SerializeField] private Canvas canvas;
 
     [SerializeField] private Collider mask_2;
+    //[SerializeField] private GameObject mask_1;
 
 
 
@@ -88,7 +89,14 @@ public class ObjectInteraction : MonoBehaviour
                     //StartCoroutine(Fade(1, 0));
                     
                 }
+            }
+        }
 
+        else if(Physics.Raycast(ray, out hit, raycastDistance, espectralCollisionMask, QueryTriggerInteraction.Collide) && PlayerController.isMaskOn)
+        {
+            tooltip.gameObject.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.E))
+            {
                 foreach (PickableObject i in GameManager.Instance.listInventory)
                 {
                     if (i == null) continue;
@@ -101,9 +109,10 @@ public class ObjectInteraction : MonoBehaviour
                         StartCoroutine(RotateClock(hinges.transform, 0, 60f));
                         isLidOpen = true;
                     }
-                }
+                }  
             }
         }
+
         else
         {
             tooltip.gameObject.SetActive(false);

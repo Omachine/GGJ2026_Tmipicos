@@ -11,6 +11,7 @@ namespace FiniteStateMachine
             player.Mask2.SetActive(false);
             player.Mask1.SetActive(true);
             animator.CrossFade(SpectralHash, crossFadeDuration);
+            PlayerController.isMaskOn = true;
         }
 
         public override void Update()

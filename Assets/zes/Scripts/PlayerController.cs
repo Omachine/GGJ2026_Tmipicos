@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
-    public static bool isInDoll = false, hasMask = false, hasMask2 = false;
+    public static bool isInDoll = false, hasMask = false, hasMask2 = false, isMaskOn = false;
     public static Transform staticEvilObjects;
     public Transform EvilObjects;
 

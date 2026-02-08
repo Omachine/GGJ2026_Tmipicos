@@ -9,6 +9,7 @@ namespace FiniteStateMachine
         public override void OnEnter()
         {
             animator.CrossFade(GroundedHash, crossFadeDuration);
+            PlayerController.isMaskOn = false;
         }
 
         public override void Update()

@@ -9,16 +9,16 @@ Shader "Custom/NewUnlitUniversalRenderPipelineShader"
 
     SubShader
     {
-        Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
+        Tags { "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" }
         
-        Stencil
-        {
-            ref [_StencilID]
-            comp equal
-        }
-
+         Stencil
+         {
+             ref [_StencilID]
+             comp equal
+         }
         Pass
         {
+
             HLSLPROGRAM
 
             #pragma vertex vert
